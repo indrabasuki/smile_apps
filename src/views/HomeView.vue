@@ -12,8 +12,9 @@
 
 <script>
 import MainLayout from "@/layouts/MainLayout.vue";
+import BaseHeader from "@/components/base/BaseHeader.vue";
 export default {
-  name: "Home",
+  name: "HomeView",
 
   data: () => ({
     isLoading: false,
@@ -21,6 +22,7 @@ export default {
 
   components: {
     MainLayout,
+    BaseHeader,
   },
 };
 </script>

@@ -1,16 +1,14 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from "@/store/index";
-import Home from '@/views/HomeView.vue'
-import Login from '@/views/auth/Login.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   { path: '/', redirect: '/login' },
-  { path: '/login', name: "login", meta: { title: "Login" }, component: Login },
-  { path: '/home', name: "home", meta: { title: "Home" }, component: Home },
-
+  { path: '/login', name: "login", meta: { title: "Login" }, component: () => import('@/views/auth/Login.vue') },
+  { path: '/home', name: "home", meta: { title: "Home" }, component: () => import('@/views/HomeView.vue') },
+  { path: '/customer', name: "customer", meta: { title: "Customer" }, component: () => import('@/views/customer/Index.vue') },
 ]
 
 const router = new VueRouter({

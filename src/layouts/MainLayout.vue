@@ -32,6 +32,11 @@
                 lazy-src="@/assets/user_default.png"
               />
             </v-list-item-avatar>
+            <v-list-item-content>
+              <v-list-item-title class="title">
+                {{ USER.name ? USER.name : "N/A" }}
+              </v-list-item-title>
+            </v-list-item-content>
           </v-list-item>
 
           <v-divider />
@@ -64,6 +69,26 @@
           <v-list-item-content>
             <v-list-item-title style="font-size: 14px"
               >Dashboard</v-list-item-title
+            >
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/customer">
+          <v-list-item-icon>
+            <v-icon>mdi-folder</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title style="font-size: 14px"
+              >Customer</v-list-item-title
+            >
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/">
+          <v-list-item-icon>
+            <v-icon>mdi-folder</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title style="font-size: 14px"
+              >Penjualan</v-list-item-title
             >
           </v-list-item-content>
         </v-list-item>

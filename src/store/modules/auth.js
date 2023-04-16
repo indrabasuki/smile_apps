@@ -26,10 +26,10 @@ const getters = {
             return state.access_token != null && state.user != null;
       },
       AccessToken: state => {
-            return state.token;
+            return state.access_token;
       },
       Token: state => {
-            return state.token_type + ' ' + state.token;
+            return 'Bearer ' + state.access_token;
       },
       User: state => {
             return state.user;
