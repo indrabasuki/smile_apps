@@ -6,19 +6,16 @@
     <v-card class="auth-card pa-8 pt-7" max-width="350">
       <v-card-title class="justify-center">
         <v-img
-          src="@/assets/pranata.png"
+          src="@/assets/smile_apps.png"
           contain
           max-width="40%"
           max-height="40%"
           class="mx-auto"
-          lazy-src="@/assets/pranata.png"
+          lazy-src="@/assets/smile_apps.png"
         ></v-img>
         <br />
       </v-card-title>
       <p class="text-center">SMILE APPS</p>
-      <v-card-text class="pt-2">
-        <h5 class="text-h5 font-weight-semibold mb-1">Silahkan Login</h5>
-      </v-card-text>
 
       <v-form
         ref="form_login"
@@ -26,10 +23,23 @@
         lazy-validation
       >
         <v-card-text>
-          <v-text-field label="Usrename"></v-text-field>
+          <v-text-field
+            label="Username"
+            placeholder="Masukan Username"
+            outlined
+            v-model="form_login.username"
+            :rules="rule_username"
+          ></v-text-field>
 
           <v-spacer></v-spacer>
-          <v-text-field label="Password"></v-text-field>
+          <v-text-field
+            type="password"
+            label="Password"
+            placeholder="Masukan Password"
+            outlined
+            v-model="form_login.password"
+            :rules="rule_password"
+          ></v-text-field>
         </v-card-text>
         <v-card-actions class="justify-center">
           <v-btn
@@ -44,15 +54,6 @@
             LOGIN
           </v-btn>
         </v-card-actions>
-        <v-card-text>
-          <v-alert
-            border="right"
-            type="error"
-            :value="form_error"
-            icon="mdi-close-octagon-outline"
-            >Invalid credentials</v-alert
-          >
-        </v-card-text>
       </v-form>
     </v-card>
 
@@ -76,21 +77,48 @@ export default {
       username: "",
       password: "",
     },
-    rule_username: [
-      (value) => !!value || "Please fill in the Username field !!!",
-    ],
-    rule_password: [
-      (value) => !!value || "Please fill in the Password field !!!",
-    ],
+    rule_username: [(value) => !!value || "Kolom username wjib diisi !!!"],
+    rule_password: [(value) => !!value || "Kolom password wajib diisi!!!"],
   }),
   created() {
     if (this.$store.getters["auth/Authenticated"]) {
-      this.$router.push("/dashboard");
+      this.$router.push({ name: "home" });
     }
   },
   methods: {
     loginAction: async function () {
-      this.$router.push({ name: "home" });
+      if (this.$refs.form_login.validate()) {
+        this.isLoading = true;
+        this.btnLoading = true;
+        await this.$axios
+          .post("/login", {
+            username: this.form_login.username,
+            password: this.form_login.password,
+          })
+          .then(({ data }) => {
+            this.$axios
+              .get("/me", {
+                headers: {
+                  Authorization: "Bearer " + data.token,
+                },
+              })
+              .then((response) => {
+                var data_user = {
+                  token: data,
+                  user: response.data,
+                };
+                this.$store.dispatch("auth/afterLoginSuccess", data_user);
+                this.btnLoading = false;
+                this.form_error = false;
+                this.isLoading = false;
+                this.$router.push({ name: "home" });
+              });
+          })
+          .catch(() => {
+            this.form_error = true;
+            this.btnLoading = false;
+          });
+      }
     },
   },
 };

@@ -75,6 +75,7 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "MainLayout",
   data: () => ({
@@ -83,9 +84,47 @@ export default {
     loginTime: 0,
   }),
 
-  methods: {},
+  methods: {
+    logout() {
+      this.loginTime = 0;
+      this.$store.dispatch("auth/logout");
+      localStorage.removeItem("smile-application");
+      this.$router.push("/");
+    },
 
-  computed: {},
+    toggleThemeDarkMode() {
+      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+    },
+  },
+
+  computed: {
+    ...mapGetters("auth", {
+      AUTHENTICATED: "Authenticated",
+      USER: "User",
+    }),
+    APP_NAME() {
+      return process.env.VUE_APP_NAME;
+    },
+  },
+  watch: {
+    loginTime: {
+      handler(value) {
+        if (value >= 0) {
+          setTimeout(() => {
+            this.loginTime =
+              this.AUTHENTICATED == true ? this.loginTime + 1 : -1;
+          }, 1000);
+        } else {
+          this.$store.dispatch("auth/logout");
+          this.$router.replace("/login");
+        }
+      },
+      immediate: true,
+    },
+    group() {
+      this.drawer = true;
+    },
+  },
 };
 </script>
 
