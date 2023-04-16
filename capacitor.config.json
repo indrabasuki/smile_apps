@@ -1,0 +1,6 @@
+{
+  "appId": "com.example.app",
+  "appName": "smile-apps",
+  "webDir": "dist",
+  "bundledWebRuntime": false
+}
