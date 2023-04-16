@@ -1,14 +1,26 @@
 <template>
-  <hello-world />
+  <main-layout>
+    <v-overlay :value="isLoading">
+      <v-progress-circular indeterminate size="64" color="amber" />
+    </v-overlay>
+    <base-header>
+      <template v-slot:icon> mdi-view-dashboard </template>
+      <template v-slot:name> Dashboard </template>
+    </base-header>
+  </main-layout>
 </template>
 
 <script>
-  import HelloWorld from '../components/HelloWorld'
-  export default {
-    name: 'Home',
+import MainLayout from "@/layouts/MainLayout.vue";
+export default {
+  name: "Home",
 
-    components: {
-      HelloWorld,
-    },
-  }
+  data: () => ({
+    isLoading: false,
+  }),
+
+  components: {
+    MainLayout,
+  },
+};
 </script>

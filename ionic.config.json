@@ -1,0 +1,7 @@
+{
+  "name": "smile-apps",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "custom"
+}
